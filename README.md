@@ -128,6 +128,21 @@ As a first step, we determine the current and next state of the game. Afterwards
 
 Finally, we note that the online network's parameters are saved every 20 games. The final model is saved as well.
 
+## [`win_counter.py`]() 
+Implements the winning counter metric. Its main purpose is maintaining a dictionary mapping each possible role to the number of games, in which player(s) of this role won the game. As such, this dictionary is updated at the end of each game, after the winning team is determined.
+
+## [`Sajin.py`]() 
+The actual utilization of the mentioned metrics by each relevant role is as follows:
+### Seer 
+A Seer incorporates both the divination metric and the coming out metric during the "Vote" phase. Specifically, if any werewolf-aligned player has been divined, he votes for one such agent. Otherwise, if there is another agent which came our as a Seer, thus it is suspected to be a werewolf-aligned player. Hence, if it wasn't previously divined as a villager-aligned player, it is voted by the Seer agent. If all agents that came out as a Seer were divined as villager-aligned players during the previous days, the Seer agent shall vote any agent which was not acknowledged as a villager.
+### Villager
+There can solely be a single Seer. Hence, if at least two agents came out as Seers, then at least one of them is necessarily not a Seer. Accordingly, the Villager agent shall vote such an agent which is most likely to be a werewolf. For a 15 players setup, the same applies for Medium and Bodyguard coming outs, in case there aren't enough Seer coming outs. If there aren't any such coming outs, the agents with highest probability of being a werewolf is voted.
+### Werewolf
+A Werewolf incorporates both the winning counter metric and the coming out metric during the "Attack" phase for a setup of 5 players. If another agent came out as a Seer during the first day, it is voted our. Otherwise, if there are any alive strong agents, one such agent is attacked. If this is not the case, we attack the agent that is most likely to be a villager.
+%
+
+In light of the discussion in Section \ref{sec:multi}, we incorporate a mixture policy along our \textbf{Sajin} agent. First, we considered the agent put forth by the \textbf{cash} team during the $4^{th}$ Japanese AIWolf Competition (\url{http://aiwolf.org/archives/1970}). So as to improve their agent's performance, we inserted the strengthening metrics proposed in Subsection \ref{sec:metrics} as well. Additionally, the mixture policy is further composed of the agent put forth by the \textbf{calups} team, which participated in the $1^{st}$ International AIWolf Contest (\url{http://aiwolf.org/en/archives/2268}).
+
 
 # How to run a test game
 
