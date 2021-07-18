@@ -139,9 +139,8 @@ A Seer incorporates both the divination metric and the coming out metric during 
 There can solely be a single Seer. Hence, if at least two agents came out as Seers, then at least one of them is necessarily not a Seer. Accordingly, the Villager agent shall vote such an agent which is most likely to be a werewolf. For a 15 players setup, the same applies for Medium and Bodyguard coming outs, in case there aren't enough Seer coming outs. If there aren't any such coming outs, the agents with highest probability of being a werewolf is voted.
 ### Werewolf
 A Werewolf incorporates both the winning counter metric and the coming out metric during the "Attack" phase for a setup of 5 players. If another agent came out as a Seer during the first day, it is voted our. Otherwise, if there are any alive strong agents, one such agent is attacked. If this is not the case, we attack the agent that is most likely to be a villager.
-%
 
-In light of the discussion in Section \ref{sec:multi}, we incorporate a mixture policy along our \textbf{Sajin} agent. First, we considered the agent put forth by the \textbf{cash} team during the $4^{th}$ Japanese AIWolf Competition (\url{http://aiwolf.org/archives/1970}). So as to improve their agent's performance, we inserted the strengthening metrics proposed in Subsection \ref{sec:metrics} as well. Additionally, the mixture policy is further composed of the agent put forth by the \textbf{calups} team, which participated in the $1^{st}$ International AIWolf Contest (\url{http://aiwolf.org/en/archives/2268}).
+We incorporate a mixture policy along our **Sajin** agent. First, we considered the agent put forth by the **cash** team during the [4-th Japanese AIWolf Competition](http://aiwolf.org/archives/1970). So as to improve their agent's performance, we inserted the strengthening metrics proposed earlier. Additionally, the mixture policy is further composed of the agent put forth by the **calups** team, which participated in the [1-st International AIWolf Contest](http://aiwolf.org/en/archives/2268).
 
 
 # How to run a test game
