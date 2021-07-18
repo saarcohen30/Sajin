@@ -145,7 +145,12 @@ We incorporate a mixture policy along our **Sajin** agent. First, we considered 
 
 # Execution
 
-1. For executing the training phase: `python Sajin/PretrainedSajin.py`
+1. For executing the training phase: `python PretrainedSajin.py`
   
 2. For executing the execution phase: 
-  a. `python Sajin/PretrainedSajin.py`
+* Download the latest [AIWolf server](http://aiwolf.org/en/server) 
+* Windows: launch `StartServer.bat`
+* Linux: execute `StartServer.sh`
+* Select either 15 players or 5 players.
+* Press the `connect` button.
+* Run `python Sajin.py -h localhost -p 10000`
