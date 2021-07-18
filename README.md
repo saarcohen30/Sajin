@@ -34,6 +34,19 @@ Refers to player `i`'s declared status, which is comprised of the following:
 - `Executed(i,j)` -- Whether player `i` was executed. 
 Such features are all assigned with a Boolean value of either 0 or 1, and are stored in a two-dimensional array, denoted by `x_2d`. Each specific declaration is assigned with a numerical value `l` (as depicted in the implementation), where `x_2d`'s `(i,l)`-th element corresponds to `i`'s `l`-th declarative feature.
 
+### Design of Rewards
+Rewards vastly contribute to the development of new strategies, as each agent aims at executing actions which maximize its expected reward. Specifically, each agent is either rewarded or penalized under the following conditions:
+#### During each day
+The number of days comprising an entire match plays a critical role in the game. So as to encourages agents to win faster, at the end of each day every agent is penalized by a small factor (-1).
+#### Death
+Death of an agent supplies it with a penalty of -5. Such a penalty avoids a high percentage of suicides, which clearly constitute as strategies in some matches.
+#### Preferences of targets
+During each "Vote" phase, every agent exhibits different preferences for choosing whom to vote for. The coordinated behaviour profound by the Werewolf game is largely attributed to such preferences. For encouraging a cooperative behaviour, agents are penalized when voting for an agent that is not killed. 
+#### Winning or Losing
+At the end of a match, the winning team is rewarded by a factor of 25, whereas the losing team is penalized by a factor of -25.
+#### Divination results
+The proliferation of agents' strategies is vastly affected by the utilization of special abilities. Seers should be rewarded for each divination action, yet more encouraged to divine werewolves. Seers are thus rewarded by a factor of 15, 10, or 2 for divining an agent who came out as a Werewolf, Possessed or Villager (respectively). Yet, the special ability incurred by Bodyguards does not involve any feedback regarding the true role of the guarded agent, and thus such action cannot be explicitly rewarded. The same is satisfied for Mediums, whose special ability is executed upon the agent eliminated by voting.
+
 # Contents of this repo
 
 - [/server](server) : the AIWolf server that run Werewolf games with several agents
