@@ -99,7 +99,10 @@ We have implemented several methods, which perform the agent selection process r
 We implement the `Options` class, consisting of initialization for all hyperparamers, incorporated in our model.
 
 ## `PretrainedSajin.py`
-This Python file provides the implementation of the pre-training phase of the incorporated policy. In can be roughly divided into two parts: training a policy in a game of 15 players, and then in a game of 5 players. Each trained policy follows a similar process: parsing the game log (via `read_log.py`) so as to attain the data required for learning, iterating over the game's days, while executing the actions performed according to the log and learning from experiences incurred with respect to those actions. The following are central auxiliary methods, which play a pivotal role in this learning process:
+This Python file provides the implementation of the pre-training phase of the incorporated policy. In can be roughly divided into two parts: training a policy in a game of 15 players, and then in a game of 5 players. 
+* **NOTE:** For executing this module, one shall **uncomment** the commented lines in the `__init__` file residing in the `Sajin\aiwolfpy\cash` directory. 
+
+Each trained policy follows a similar process: parsing the game log (via `read_log.py`) so as to attain the data required for learning, iterating over the game's days, while executing the actions performed according to the log and learning from experiences incurred with respect to those actions. The following are central auxiliary methods, which play a pivotal role in this learning process:
 
 ### `game_initializer(df, agent=1)`
 This method receives the data frame corresponding to the game, as well as a player's ID. It first determines the player's role in the regarded game, and then filters the data frame `df` in a manner that it solely consists of legitimate actions for the player's role. 
