@@ -75,11 +75,12 @@ The `read_log.py` was originally provided as part of the [AIWolfPy Library](http
 - During the parsing of the lines corresponding to the first day (Day 0), we identify the ID of the agent, which was proven to be the strongest during ANAC2020.
 - At each `'status'` line, depicting whether players are alive or dead, we record the line in the data frame to be returned during the end of the `read_log` method. If such a line depicts the death of certain player, we further generate a mapping of its ID to its role. 
 - At `'result'` line, depicting which team won the game, we check which team won and record the number of days across which the game was executed.
-    
+
 Finally, the output of the `read_log` method comprises of a data frame illustrating the players' actions, a role map of dead agents, the identity of the winning team, how many days the game lasted, and the ID of the strongest agent in the game log.
-- [/killerQueen](killerQueen) : code source of the Killer Queen agent
-- [/other_agents](other_agents) : code source of other public agents, for testing purpose
-- [/archive](archive) : older versions of Killer Queen
+
+## [`aiwolfpy/cash/dqn5.py` & `aiwolfpy/cash/dqn15.py`]() 
+The `predictor_5.py` and `predictor_15.py` files implement the `Predictor_5` and `Predictor_15` classes, which constitute the predictors for a setup of 5 and 15 players, respectively. Their respective code is highly based on the one supplied by the **cash** team, yet their code was not suited for the utilization of the `DQNetwork5` and \texttt{DQNetwork15} classes (Subsection \ref{sec:dqn.py}). We thus altered the `initialize` method by constructing an online DQN and a target DQN, where the target DQN's parameters are set to be those of the online DQN. For this sake, we added the `update_target_dqn` method.
+
 
 # How to run a test game
 
