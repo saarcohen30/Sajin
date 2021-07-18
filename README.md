@@ -70,7 +70,7 @@ While the various multi-objective algorithms learn only a finite set of determin
 # Implementation Details
 We drew inspiration from the [cash](https://github.com/k-harada/AIWolfPy) team, whose initial participation in the competition occurred at [GAT2017](http://aiwolf.org/archives/1367). Further, our own agent is based on their agent during the subsequent competition (CEDEC2017, where their implementation can be found at: \url{http://aiwolf.org/control-panel/wp-content/uploads/2017/09/aiwolf2017_cash.zip}). Yet, their agent constitutes a basic foundation for our Sajin agent, and we have majorly altered their code. Thus, we herein provide a concise description of such alterations.
 
-## [/server](`aiwolfpy/read_log.py`) 
+## [`aiwolfpy/read_log.py`]() 
 The `read_log.py` was originally provided as part of the [AIWolfPy Library](https://github.com/aiwolf/AIWolfPy), supplied by the contest's managers and consists of the `read_log(log_path, n_agents)` method, which receives the path to the game log and the number of agents. Yet, this file neglected processing several parts of a specific game log, which are crucial for performing our proposed framework. The alterations needed are as follows:
 - During the parsing of the lines corresponding to the first day (Day 0), we identify the ID of the agent, which was proven to be the strongest during ANAC2020.
 - At each `'status'` line, depicting whether players are alive or dead, we record the line in the data frame to be returned during the end of the `read_log` method. If such a line depicts the death of certain player, we further generate a mapping of its ID to its role. 
