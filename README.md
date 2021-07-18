@@ -70,7 +70,7 @@ While the various multi-objective algorithms learn only a finite set of determin
 # Implementation Details
 We drew inspiration from the [cash](https://github.com/k-harada/AIWolfPy) team, whose initial participation in the competition occurred at [GAT2017](http://aiwolf.org/archives/1367). Further, our own agent is based on their agent during the subsequent competition (CEDEC2017, where their implementation can be found at: \url{http://aiwolf.org/control-panel/wp-content/uploads/2017/09/aiwolf2017_cash.zip}). Yet, their agent constitutes a basic foundation for our Sajin agent, and we have majorly altered their code. Thus, we herein provide a concise description of such alterations.
 
-## [`aiwolfpy/read_log.py`]() 
+## `aiwolfpy/read_log.py` 
 The `read_log.py` was originally provided as part of the [AIWolfPy Library](https://github.com/aiwolf/AIWolfPy), supplied by the contest's managers and consists of the `read_log(log_path, n_agents)` method, which receives the path to the game log and the number of agents. Yet, this file neglected processing several parts of a specific game log, which are crucial for performing our proposed framework. The alterations needed are as follows:
 - During the parsing of the lines corresponding to the first day (Day 0), we identify the ID of the agent, which was proven to be the strongest during ANAC2020.
 - At each `'status'` line, depicting whether players are alive or dead, we record the line in the data frame to be returned during the end of the `read_log` method. If such a line depicts the death of certain player, we further generate a mapping of its ID to its role. 
@@ -78,13 +78,13 @@ The `read_log.py` was originally provided as part of the [AIWolfPy Library](http
 
 Finally, the output of the `read_log` method comprises of a data frame illustrating the players' actions, a role map of dead agents, the identity of the winning team, how many days the game lasted, and the ID of the strongest agent in the game log.
 
-## [`aiwolfpy/cash/dqn5.py`]() & [`aiwolfpy/cash/dqn15.py`]() 
+## `aiwolfpy/cash/dqn5.py` & `aiwolfpy/cash/dqn15.py` 
 The `predictor_5.py` and `predictor_15.py` files implement the `Predictor_5` and `Predictor_15` classes, which constitute the predictors for a setup of 5 and 15 players, respectively. Their respective code is highly based on the one supplied by the **cash** team, yet their code was not suited for the utilization of the `DQNetwork5` and `DQNetwork15` classes. We thus altered the `initialize` method by constructing an online DQN and a target DQN, where the target DQN's parameters are set to be those of the online DQN. For this sake, we added the `update_target_dqn` method.
 
-## [`blr.py`]() 
+## `blr.py`
 Implements a BLR layer. The most crucial part of this file is the `sample_W` method, which performs the Thompson sampling from the posterior distribution. The other methods follow the usual BLR baseline and perform the updating of its parameters.
 
-## [`utils.py`]() 
+## `utils.py`
 Contains several auxiliary methods and classes, utilized across the entire code, which are as follows:
 
 ### Replay Buffer
@@ -98,7 +98,7 @@ We have implemented several methods, which perform the agent selection process r
 ### Hyperparameters
 We implement the `Options` class, consisting of initialization for all hyperparamers, incorporated in our model.
 
-## [`PretrainedSajin.py`]() 
+## `PretrainedSajin.py`
 This Python file provides the implementation of the pre-training phase of the incorporated policy. In can be roughly divided into two parts: training a policy in a game of 15 players, and then in a game of 5 players. Each trained policy follows a similar process: parsing the game log (via `read_log.py`) so as to attain the data required for learning, iterating over the game's days, while executing the actions performed according to the log and learning from experiences incurred with respect to those actions. The following are central auxiliary methods, which play a pivotal role in this learning process:
 
 ### `game_initializer(df, agent=1)`
@@ -128,10 +128,10 @@ As a first step, we determine the current and next state of the game. Afterwards
 
 Finally, we note that the online network's parameters are saved every 20 games. The final model is saved as well.
 
-## [`win_counter.py`]() 
+## `win_counter.py`
 Implements the winning counter metric. Its main purpose is maintaining a dictionary mapping each possible role to the number of games, in which player(s) of this role won the game. As such, this dictionary is updated at the end of each game, after the winning team is determined.
 
-## [`Sajin.py`]() 
+## `Sajin.py` 
 The actual utilization of the mentioned metrics by each relevant role is as follows:
 ### Seer 
 A Seer incorporates both the divination metric and the coming out metric during the "Vote" phase. Specifically, if any werewolf-aligned player has been divined, he votes for one such agent. Otherwise, if there is another agent which came our as a Seer, thus it is suspected to be a werewolf-aligned player. Hence, if it wasn't previously divined as a villager-aligned player, it is voted by the Seer agent. If all agents that came out as a Seer were divined as villager-aligned players during the previous days, the Seer agent shall vote any agent which was not acknowledged as a villager.
