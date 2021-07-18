@@ -24,7 +24,7 @@ We regard the attitude of player `i` towards player `j`, as outlined subsequentl
 - `Vote(i,j)` -- Whether player `i` said he voted for player `j` or not.
 - `Estimate(i,j)` -- Whether player `i` estimated that player `j` is a werewolf or not. 
 - `Guarded(i,j)` -- Whether player `i`, which is a bodyguard, managed to guard player `j`.
-Features of this sort are all assigned with a Boolean value of either `0` or `1`, and are stored in a three-dimensional array, denoted by `x_3d`. Each specific attitude is assigned with a numerical value `\ell` (as depicted in the implementation), where `x_3d`'s `(i,j,\ell)`-th element corresponds to `i`'s `\ell`-th attitude towards `j`.
+Features of this sort are all assigned with a Boolean value of either `0` or `1`, and are stored in a three-dimensional array, denoted by `x_3d`. Each specific attitude is assigned with a numerical value `l` (as depicted in the implementation), where `x_3d`'s `(i,j,l)`-th element corresponds to `i`'s `l`-th attitude towards `j`.
 
 
 # Contents of this repo
