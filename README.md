@@ -78,8 +78,55 @@ The `read_log.py` was originally provided as part of the [AIWolfPy Library](http
 
 Finally, the output of the `read_log` method comprises of a data frame illustrating the players' actions, a role map of dead agents, the identity of the winning team, how many days the game lasted, and the ID of the strongest agent in the game log.
 
-## [`aiwolfpy/cash/dqn5.py` & `aiwolfpy/cash/dqn15.py`]() 
-The `predictor_5.py` and `predictor_15.py` files implement the `Predictor_5` and `Predictor_15` classes, which constitute the predictors for a setup of 5 and 15 players, respectively. Their respective code is highly based on the one supplied by the **cash** team, yet their code was not suited for the utilization of the `DQNetwork5` and \texttt{DQNetwork15} classes (Subsection \ref{sec:dqn.py}). We thus altered the `initialize` method by constructing an online DQN and a target DQN, where the target DQN's parameters are set to be those of the online DQN. For this sake, we added the `update_target_dqn` method.
+## [`aiwolfpy/cash/dqn5.py`]() & [`aiwolfpy/cash/dqn15.py`]() 
+The `predictor_5.py` and `predictor_15.py` files implement the `Predictor_5` and `Predictor_15` classes, which constitute the predictors for a setup of 5 and 15 players, respectively. Their respective code is highly based on the one supplied by the **cash** team, yet their code was not suited for the utilization of the `DQNetwork5` and `DQNetwork15` classes. We thus altered the `initialize` method by constructing an online DQN and a target DQN, where the target DQN's parameters are set to be those of the online DQN. For this sake, we added the `update_target_dqn` method.
+
+## [`blr.py`]() 
+Implements a BLR layer. The most crucial part of this file is the `sample_W` method, which performs the Thompson sampling from the posterior distribution. The other methods follow the usual BLR baseline and perform the updating of its parameters.
+
+## [`utils.py`]() 
+Contains several auxiliary methods and classes, utilized across the entire code, which are as follows:
+
+### Replay Buffer
+We provide a class implementing a standard replay buffer.
+### Rewards
+We create a dictionary `rewards`, comprising of the rewards and penalties administered under the circumstances depicted in Subsection \ref{sec:rewards}.
+
+### Action Methods
+We have implemented several methods, which perform the agent selection process required as a part of the respective action. For instance, the `vote_possessed_15` method implements the voting action of a Possessed player in a setup of 15 players. Clearly, those methods are of critical importance during both the execution phase of our agents.
+
+### Hyperparameters
+We implement the `Options` class, consisting of initialization for all hyperparamers, incorporated in our model.
+
+## [`PretrainedSajin.py`]() 
+This Python file provides the implementation of the pre-training phase of the incorporated policy. In can be roughly divided into two parts: training a policy in a game of 15 players, and then in a game of 5 players. Each trained policy follows a similar process: parsing the game log (via `read_log.py`) so as to attain the data required for learning, iterating over the game's days, while executing the actions performed according to the log and learning from experiences incurred with respect to those actions. The following are central auxiliary methods, which play a pivotal role in this learning process:
+
+### `game_initializer(df, agent=1)`
+This method receives the data frame corresponding to the game, as well as a player's ID. It first determines the player's role in the regarded game, and then filters the data frame `df` in a manner that it solely consists of legitimate actions for the player's role. 
+
+### `game_data_filter(df, day, predictor, phase='daily_initialize', agent=1)`
+This method receives the data frame corresponding to the game, the number of day, a predictor, the phase in the game and a player's ID. If the game's phase in "Daily Initialize", we filter the data frame `df` to consist of all actions before the `day`-th Day. Otherwise, it is set to solely include all "Talk" actions up to the `day`-th Day (inclusive). Afterwards, the predictor given by `predictor` is updated via its `update` method.
+
+### `Action Methods`
+We have implemented several methods, which perform the agent selection process required as a part of the respective action. For instance, the `vote_possessed_15` method implements the voting action of a Possessed player in a setup of 15 players. Clearly, those methods are of critical importance during the training process of our agents.
+
+### `Training Methods`
+We have implemented two training methods, `update_double_q_network` and `update_q_network`, which are utilized for training the BDQN and the DQN (respectively). Both methods follow a similar process. First, they determine the number of agents, according to which they proceed the training of the respective DQN. 
+
+### `gradients_application(agent, tape, trainable_variables, l, main_q)`
+This method receives an instance of the `PretrainedSajinAgent` class, a gradient tape (which is explained later), the trainable variables of the respective DQN, the loss incurred along the training step and `main_q` corresponds to the Q-value supplied by the online network with respect to the performed action. A gradient tape is instantiated by the `tf.GradientTape()` method, where operations are recorded if they are executed within its context manager, and at least one of their inputs is being "watched". Using `tape`, we calculate the gradients corresponding to the trainable variables, which are automatically watched. Those gradients are then incorporated for the parameters' update.  
+
+### `get_status(diff_data, idx)`
+This method returns whether the agent associated with the ID `idx` is either alive or dead, as illustrated by the data frame `diff_data`.
+
+The `PretrainedSajinAgent` class's central methods are extensively depicted as follows:
+### `initialize(self, diff\_data, n\_agents)`
+Using the `game_initializer` method, the agent's role and data frame are initialized. Further, the appropriate predictor is initialized, along with a BLR layer. 
+
+### `update(self, request, day, roleMap, is\_werewolf\_win, n\_agents)`
+As a first step, we determine the current and next state of the game. Afterwards, if the agent is dead, it is penalized according to the death penalty. If `request` corresponds to the "Daily Initialize" phase, we iterate over the agent's actions. For the scenarios provided in Subsection \ref{sec:rewards}, we store the resulting experiences in a replay buffer, along with their relevant components. If `request` corresponds to the "Finish" phase, we penalize and reward the winning and losing teams (respectively), and store a terminal experience in the replay buffer. If the replay buffer contains at least a batch's size, we train the randomly selected network (either the BDQN or the DQN). Afterwards, Thompson sampling and the updating of the target network's parameters are performed if a sufficient amount of days have passed. In our own experiments, which subsequently follow, both are executed every 10 days. 
+
+Finally, we note that the online network's parameters are saved every 20 games. The final model is saved as well.
 
 
 # How to run a test game
