@@ -67,9 +67,16 @@ The SDPT-DRL technique is outlined as follows. First, the DL-based agent is trai
 ## Mixture Policy
 While the various multi-objective algorithms learn only a finite set of deterministic non-stationary policies, one could employ a  stochastic combination of these policies. Particularly, such a stochastic combination of policies is refereed to as a [**mixture policy**](https://www.academia.edu/download/49991751/Constructing_Stochastic_Mixture_Policies20161030-2646-1jjv5if.pdf). Thus, although there are only two deterministic policies for the original problem, a mixture policy implicates that we can sample the entire convex hull of policies by combining the deterministic policies with a certain probability. Hence, stochastic combinations of the policies of the Pareto front can represent every solution on the convex hull of the same Pareto front.
 
-# Contents of this repo
+# Implementation Details
+We drew inspiration from the [cash](https://github.com/k-harada/AIWolfPy) team, whose initial participation in the competition occurred at [GAT2017](http://aiwolf.org/archives/1367). Further, our own agent is based on their agent during the subsequent competition (CEDEC2017, where their implementation can be found at: \url{http://aiwolf.org/control-panel/wp-content/uploads/2017/09/aiwolf2017_cash.zip}). Yet, their agent constitutes a basic foundation for our Sajin agent, and we have majorly altered their code. Thus, we herein provide a concise description of such alterations.
 
-- [/server](server) : the AIWolf server that run Werewolf games with several agents
+## [/server](`aiwolfpy/read_log.py`) 
+The `read_log.py` was originally provided as part of the [AIWolfPy Library](https://github.com/aiwolf/AIWolfPy), supplied by the contest's managers and consists of the `read_log(log_path, n_agents)` method, which receives the path to the game log and the number of agents. Yet, this file neglected processing several parts of a specific game log, which are crucial for performing our proposed framework. The alterations needed are as follows:
+- During the parsing of the lines corresponding to the first day (Day 0), we identify the ID of the agent, which was proven to be the strongest during ANAC2020.
+- At each `'status'` line, depicting whether players are alive or dead, we record the line in the data frame to be returned during the end of the `read_log` method. If such a line depicts the death of certain player, we further generate a mapping of its ID to its role. 
+- At `'result'` line, depicting which team won the game, we check which team won and record the number of days across which the game was executed.
+    
+Finally, the output of the `read_log` method comprises of a data frame illustrating the players' actions, a role map of dead agents, the identity of the winning team, how many days the game lasted, and the ID of the strongest agent in the game log.
 - [/killerQueen](killerQueen) : code source of the Killer Queen agent
 - [/other_agents](other_agents) : code source of other public agents, for testing purpose
 - [/archive](archive) : older versions of Killer Queen
