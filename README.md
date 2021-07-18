@@ -61,6 +61,12 @@ So as to elevate the characteristics flourished by the SBDQN algorithm, we herei
 - **Coming Out Metric.** Along the game's progression, agents may choose to willingly come out, according to either their true role or another one. However, there are three roles, where each can be solely associated with a single agent: Seer, Medium and Bodyguard. Thus, if two or more agents were to come out as one of this roles, one of them is necessarily lying. Consequently, villager-aligned players could utilize such information, so as to vote for the agent which is less likely to be of the certain role. For instance, if two agents were to come out as a Seer, a villager-aligned agent should vote for the player which is most likely to be a Werewolf. 
 - **Divination Metric.** Exploiting its special ability, a Seer might prefer to vote for agents divined as either a werewolf or a possessed agent. Alternately, if villager-aligned agents were divined, and there isn't any alive werewolf-aligned agent for which a divination result was previously obtained, a Seer should vote for any agent which does not reside in the divination set of villager-aligned ones.
 
+## Self Deep Parameter Transfer DRL (SDPT-DRL)
+The SDPT-DRL technique is outlined as follows. First, the DL-based agent is trained in the Werewolf game environment. Then, the parameters learned in this non-RL setting are transferred to the RLobo agent as an initialization of its own parameters. We note that, unlike most of the existing literature on transfer learning, the source and target tasks are the same. However, a recent work by [Plisnier et al.](https://ala2021.vub.ac.be/papers/ALA2021_paper_24.pdf) demonstrated that an RL agent performing this “self-transfer” significantly improves its total sample-efficiency and the final policy quality, compared to what it would have achieved by learning the task from scratch. Yet, we emphasize that their self-transfer method concerns a pair of RL-based agents, while ours does not, as mentioned earlier.
+
+## Mixture Policy
+While the various multi-objective algorithms learn only a finite set of deterministic non-stationary policies, one could employ a  stochastic combination of these policies. Particularly, such a stochastic combination of policies is refereed to as a [**mixture policy**](https://www.academia.edu/download/49991751/Constructing_Stochastic_Mixture_Policies20161030-2646-1jjv5if.pdf).
+
 # Contents of this repo
 
 - [/server](server) : the AIWolf server that run Werewolf games with several agents
