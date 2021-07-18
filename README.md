@@ -143,16 +143,9 @@ A Werewolf incorporates both the winning counter metric and the coming out metri
 We incorporate a mixture policy along our **Sajin** agent. First, we considered the agent put forth by the **cash** team during the [4-th Japanese AIWolf Competition](http://aiwolf.org/archives/1970). So as to improve their agent's performance, we inserted the strengthening metrics proposed earlier. Additionally, the mixture policy is further composed of the agent put forth by the **calups** team, which participated in the [1-st International AIWolf Contest](http://aiwolf.org/en/archives/2268).
 
 
-# How to run a test game
+# Execution
 
-1. Configure the game's settings in `gameSettings.ini`. follow the format specified to choose games composition (agents algorithms and roles). Here are useful parameters:
-  - `game` (int) : number of games to simulate
-
-  - `log` (path) : path to the folder where the server will write game logs
-
-  - `view` (bool) : use the GUI to follow the course of the game (Japanese)
-
-
-2. Start the server.
-* Windows : launch [RUN.bat](RUN.bat) or [server/AutoStarter.bat](server/AutoStarter.bat)
-* Linux : launch [RUN.sh](RUN.sh) or [server/AutoStarter.bat](server/AutoStarter.bat)
+1. For executing the training phase: `python Sajin/PretrainedSajin.py`
+  
+2. For executing the execution phase: 
+  a. `python Sajin/PretrainedSajin.py`
