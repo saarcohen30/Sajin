@@ -47,6 +47,11 @@ At the end of a match, the winning team is rewarded by a factor of 25, whereas t
 #### Divination results
 The proliferation of agents' strategies is vastly affected by the utilization of special abilities. Seers should be rewarded for each divination action, yet more encouraged to divine werewolves. Seers are thus rewarded by a factor of 15, 10, or 2 for divining an agent who came out as a Werewolf, Possessed or Villager (respectively). Yet, the special ability incurred by Bodyguards does not involve any feedback regarding the true role of the guarded agent, and thus such action cannot be explicitly rewarded. The same is satisfied for Mediums, whose special ability is executed upon the agent eliminated by voting.
 
+### DQN for a Game with 15 Players
+The three-dimensional array `x_3d` is first fed into a 32 `Conv1D` filters with appropriate input shapes, whose result is then processed by a `ReLU` activation function, then fed into 9 additional `Conv1D` filters and a ReLU activation function is applied on the attained result. The final output is then reshaped into a `15 X 15 X 3 X 3` tensor, and a `tf.matmul` operation is executed with respect to a matrix `t3d_mat`, enumerating all 5460 (15!) possible permutations of agents' roles. Note that a similar process is administered upon the two-dimensional array `x_2d`, where an addition is performed between the two final outputs. The addition's result is fed through a softmax function, whose output is denoted by `p`. Given `p`, the DQN's final outcome is given by:
+`tf.tensordot(t2d, p / K.sum(p), axes = [0, 0]).transpose()`
+Finally, we assign a Bayesian Linear Regression (BLR) layer on the top of the representation.
+
 # Contents of this repo
 
 - [/server](server) : the AIWolf server that run Werewolf games with several agents
