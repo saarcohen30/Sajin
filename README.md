@@ -149,7 +149,7 @@ We incorporate a mixture policy along our **Sajin** agent. First, we considered 
 # Execution
 
 1. For executing the training phase: `python PretrainedSajin.py`
-  
+* **NOTE:** As mentioned earlier, for executing this module, one shall **uncomment** the commented lines in the `__init__` file residing in the `Sajin\aiwolfpy\cash` directory.
 2. For executing the execution phase: 
 * Download the latest [AIWolf server](http://aiwolf.org/en/server) 
 * Windows: launch `StartServer.bat`
